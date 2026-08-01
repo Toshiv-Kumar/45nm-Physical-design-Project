@@ -1462,6 +1462,8 @@ setAnalysisMode -analysisType onChipVariation -cppr both
 
 `report_ccopt_skew_groups`
 <img width="847" height="297" alt="image" src="https://github.com/user-attachments/assets/5889481f-c4f5-4b8f-94f0-76983013801f" />
+### Its output
+<img width="1122" height="841" alt="image" src="https://github.com/user-attachments/assets/e47e7890-f773-4d68-9073-28257ab56abe" />
 
 
 `report_ccopt_clock_tree_structure`
@@ -1647,6 +1649,9 @@ A **schematic** is the electrical drawing of a circuit: it shows which devices e
 
 A simple memory trick is: **schematic = circuit idea, layout = silicon picture**. The difference matters because a design can look electrically correct in schematic form but still fail in layout if the physical connections, spacing, or device shapes are wrong.
 
+ECO means **Engineering Change Order**. In chip design, it is a late-stage change used to fix a bug, timing violation, or small feature update without rebuilding the whole chip flow. Physically, it is like patching a finished layout locally instead of restarting floorplan → placement → CTS → route;
+
+Where it fits: usually **after synthesis and during/after PnR**, especially near the end when timing or functionality still needs correction. There are two common cases: **pre-mask ECO** before tapeout, where cells and routing can still change more freely, and **post-mask / metal ECO**, where only metal layers are changed and spare cells are often used.
 
 # Basic fundamental doubts
 ----
