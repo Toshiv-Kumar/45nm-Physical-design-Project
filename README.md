@@ -1397,7 +1397,7 @@ These lines are the **clock-tree setup for CCOpt**, meaning you are telling Inno
 
 `set_ccopt_property buffer_cells {CLKBUFX8 CLKBUFX12}` and `inverter_cells {CLKINVX8 CLKINVX12}` tell Innovus which standard cells it may insert as clock buffers or inverters. This matters because CTS needs legal cells with enough drive strength to handle clock load, keep transition sharp, and balance skew. The memory trick is: **buffer/inverter lists = allowed clock repeaters**. <citation src="3"></citation>
 
-`set_ccopt_property clock_gating_cells TLATNTSCA*` tells Innovus which clock-gating cells it can recognize and preserve/use around gated clocks. The `*` is a wildcard in Tcl, meaning “any cell name starting with `TLATNTSCA`.” In Linux/Tcl style, wildcards are just pattern matching, not math. Physically, clock gating cells must be handled carefully because they sit in the clock path and affect both timing and power. <citation src="3"></citation>
+`set_ccopt_property clock_gating_cells TLATNTSCA*` tells Innovus which clock-gating cells it can recognise and preserve/use around gated clocks. The `*` is a wildcard in Tcl, meaning “any cell name starting with `TLATNTSCA`.” In Linux/Tcl style, wildcards are just pattern matching, not math. Physically, clock-gating cells must be handled carefully because they sit in the clock path and affect both timing and power. <citation src="3"></citation>
 
 `create_ccopt_clock_tree_spec -file ccopt.spec` generates a clock-tree specification file from the current constraints and design data. Then `source ccopt.spec` means “run this file now” in Tcl, so Innovus loads those CCOpt settings into the session. Simple memory trick: **create = write the recipe; source = read the recipe into the tool**. <citation src="2,4"></citation>
 
@@ -1473,10 +1473,6 @@ setAnalysisMode -analysisType onChipVariation -cppr both
 
 
 ## Command 10 : 
-```
-
-
-```
 **Explanations and outputs**
 ---
 `routeDesign
@@ -1533,6 +1529,10 @@ Signal integrity is whether a signal arrives cleanly without being corrupted by 
 NanoRoute is Cadence’s detailed routing engine in Innovus. It performs actual wire/via routing after global routing, respecting DRCs, spacing, layer rules, and often SI/litho constraints. Its variables are the internal knobs that control routing behavior: congestion handling, via optimization, shielding, antenna handling, rip-up and reroute aggressiveness, and DRC repair. The exact variable names vary by flow, but the idea is always the same: **they tune how hard the router tries, where it is allowed to change wires, and which problems it prioritizes**. <citation src="2"></citation>
 
 The reason post-route lithography fixes and optimize vias can conflict is simple: both want to modify the same physical area, but for different goals. A litho fix may move or reshape a wire segment to make it printable, while via optimization may want to add or move vias to reduce resistance or improve reliability. Those changes can fight each other because one fix can invalidate the other’s spacing, enclosure, or pattern rules. Physically, one edits the metal shape and the other edits the connection point; mathematically, both are constrained optimization problems on the same geometry, so improving one constraint can worsen another.
+
+## Display window after routeDesign:
+<img width="1147" height="767" alt="image" src="https://github.com/user-attachments/assets/d35204e5-0758-4beb-ba31-7e426ea3d713" />
+
 
 ---
 `verify_antenna`
