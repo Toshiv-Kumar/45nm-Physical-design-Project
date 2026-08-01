@@ -290,6 +290,10 @@ Specifies one or multiple names of either top-level modules or VHDL configuratio
 If you specify the configuration name of a module instead of the module name, elaboration will occur according to the specified configuration.
 
 If you omit "module", all top-level modules or configuration are elaborated.
+
+## schematic_main_view(gui view) of Hierarchial cell(top-level design): base RTL file elaborated(fixes, basic optimizations)
+<img width="1847" height="1030" alt="schematic_main_view" src="https://github.com/user-attachments/assets/faaa3444-129f-4e0f-bf08-7411fd04e27f" />
+
 ****
 `time_info Elaboration`
 Description
@@ -381,6 +385,10 @@ Main steps include:
 It is recommended to use the check_design command in advance to find major design problems like comb loops, unresolved modules and multi-driven or undriven nets or pins. Also the command check_timing_intent helps to identify issues related to the timing constraints read into the tool.
 
 The effort of this command is controlled via the syn_generic_effort attribute. See its documentation for specific arguments. Use the write_snapshot command to capture relevant metrics after running syn_generic.
+
+## schematic_main_view(gui view) of Hierarchial cell(top-level design) after generic synthesis:
+<img width="1836" height="987" alt="5 Syn_generic_step_gui_o-p" src="https://github.com/user-attachments/assets/e9f37639-ef6e-43bc-9fad-6087495a927a" />
+
  
 ---
 `after syn_generic till report_summary`
@@ -447,7 +455,7 @@ write_do_lec -revised_design fv_map -logfile ${_LOG_PATH}/rtl2intermediate.lec.l
 ### **Explanation:**
 `syn_map`
 
-Description
+Description:
        syn_map maps a design from generic gates to a technology library  while
        optimizing  for  best  performance,  power  and  area.  Genus evaluates
        multiple implementations for a given logic cone  and  chooses  the  one
@@ -479,6 +487,9 @@ Description
        merging of flip flops and physical-aware scan insertion  post  syn_map.
        It  is  a prerequisite to run physical-aware mapping if syn_generic was
        run in physical mode too.
+
+## schematic_main_view(gui view) of Hierarchial cell(top-level design) after syn_map
+<img width="1831" height="990" alt="6 Syn_map_gui" src="https://github.com/user-attachments/assets/cb67e998-6cfa-4e04-af52-d5f12156ba5a" />
 
 ---
 
@@ -552,6 +563,9 @@ Description
 syn_opt takes a mapped design as input and incrementally optimizes timing, area and power.
 
 When run with no arguments, other than design, syn_opt will do a pure logical optimization. This version of logical-only optimization is OBSOLUTE and will be removed in a future release, see 'syn_opt -logical'. Depending on the effort level specified by syn_opt_effort, it first optimizes worst and total negative slack, then applies certain transforms to recover area and power. The higher the effort, the more iterations of optimization steps are done.
+
+## schematic_main_view(gui view) of Hierarchial cell(top-level design) after syn_opt
+<img width="1842" height="1016" alt="7 Syn_opt_gui" src="https://github.com/user-attachments/assets/85e225d6-0b4d-46f5-b77b-1cabd48b5ec1" />
 
 ---
 
