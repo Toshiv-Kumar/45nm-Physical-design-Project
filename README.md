@@ -669,7 +669,8 @@ So in simple words:
 - **csh** = the command to start it
 
 Example:
-```sh
+```
+sh
 csh
 ```
 starts the C shell.
@@ -688,7 +689,7 @@ So the OS itself doesn’t “understand” high-level languages directly. It ul
 # Command 2 for setup: leon.globals, mmmc file, lef, variable values.
 **Question formatted for AI:**
 
-I am working on a physical design project using a server IP which provides cadence innovus tool. There are some commands I don't understand in the PNR flow as in what they are supposed to do. I want your help on that.
+I am working on a physical design project using a server IP which provides the Cadence Innovus tool. There are some commands I don't understand in the PNR flow as in what they are supposed to do. I want your help on that.
 
 Always give the reasoning behind all of these. When giving reasoning, remember that fundamental points should not be ignored; go into depth so I understand the root cause. Remember that you need to give both physical and mathematical significance. Tell me a simple way by which I can remember the meaning and be able to recall it easily, because I keep forgetting things. But don't write long texts, please. Write in paragraph form(the way it is in standard books. It feels easier to read in continuation and compresses space used while writing texts. If you feel that bullet points or your general method is more important for specific explanations, then implement that. )
 Also, do remember that I am not familiar with Linux syntax, so teach me that a little bit where required.  No need to repeat the syntax that you may have already taught me from previous chats.
@@ -879,6 +880,10 @@ A good memory trick is: **floorplan = place the city blocks; powerplan = build t
 
 ## Output of Floorplan: 
 <img width="1220" height="720" alt="image" src="https://github.com/user-attachments/assets/0bdba95e-e53e-4494-b74f-6f03e497d5e8" />
+
+## Loaded Floorplan_plus_Powerplan onto the display window after `win` command
+<img width="1270" height="897" alt="loaded_floorplan_plus_powerplan" src="https://github.com/user-attachments/assets/f6a334dd-9b46-4ca3-9c50-54a8d1089b2a" />
+
 
 ### Command 5 for Verification, checking and modification of settings(telling the tool how to perform operations or give outputs.):
 **Question:** 
@@ -1253,9 +1258,12 @@ Early global routing is done so the placer can **predict congestion and route le
 A simple way to remember it is: **RC = timing realism; early global routing = congestion realism**. 
 ## Output of PlaceDesign(Does congestion analysis for us)
 <img width="1636" height="667" alt="image" src="https://github.com/user-attachments/assets/6a919efd-c472-47df-acc9-684bd49c1090" />
+## Display window after `place_design` command:
+<img width="1132" height="910" alt="10 Place_design_for_pnr" src="https://github.com/user-attachments/assets/b2a92e47-941a-4041-af15-edf2abc09eed" />
 
 
-## Command 7 , checks after place_design:
+
+## Command 7, checks after place_design:
 ```
 reportCongestion -overflow
 # fix by opt_design if thereis more than summed 0.01% H+V overflow.
@@ -1430,6 +1438,9 @@ setAnalysisMode -analysisType onChipVariation -cppr both
 <img width="802" height="237" alt="image" src="https://github.com/user-attachments/assets/65dd0ad5-1322-4b3d-8bdf-fef169ff8708" />
 
 <img width="790" height="82" alt="image" src="https://github.com/user-attachments/assets/bb69ff5e-a00a-4cc2-add2-5704f7168c90" />
+
+### Display window of genus after `clock_opt_design`
+<img width="1720" height="951" alt="11 conventional_clock_tree_structure" src="https://github.com/user-attachments/assets/97c102b5-51e7-4e4e-8056-f6c2c351e4c7" />
 
 
 		---
