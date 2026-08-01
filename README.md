@@ -1466,16 +1466,19 @@ meaning
 
 The router used routing layers sensibly.
 
-
-# Tools and Theory Knowledge gained:
 ---
+
+# Tcl commands with explanations for the complete flow are laid out.:
+
+---
+
 ## TOOL BRIEF FIRST:
 ##  03/07/2026 00:39  :Tools day 1 and some Important Linux info: 
 ## General instructions:
 Invoke tools:
 csh
 source /home/server2/.cshrc
-innovus -stylus
+innovus 
 
 ## save states during pnr by saveDesign.enc , no need to source anything from start. We can just open our saveddesign.
 ---
@@ -1494,26 +1497,10 @@ innovus -stylus
 2. To fix the lagging, restart the linux environment again.
 3. To run and open syncthing
 
-----
-# Important things to understand by yourself for Genus synthesis:
-1. See whatsapp list.
-2. See Final_synthesis_video: analyse all the files present there.
-
-# Important things to understand by yourself for Pnr:
-Every single thing in these listed files.
-**Copy only files and folders that are pulled in runlab.tcl**
-1. Everything in Default.Globals(initial settingss) in rak block implementation. It is for entire setup of pnr flow
-2. .mmmc file in rak/data/
-3. leon.globals file in rak/data/
-
+---
 
 ## Run complete flow using this command when 'genus' is invoked in work directory.
 `source /home/vfirstcad56/Toshiv_Kumar/Genus_Project/run.tcl `
-
-### How to see generated outputs after write_hdl and write_sdc?
- They are saved in work directory itself.
-
-----
 
 ## Theory for Synthesis tcl commands process step by step
 ## Copy Paste the entire run.tcl(genus) and runLab.tcl(for pnr) onto github
