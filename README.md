@@ -320,10 +320,15 @@ Description
 	    -unresolved
               Reports unresolved references and empty modules in the design.
 
+<img width="571" height="717" alt="2 Check_design_after_gui_show" src="https://github.com/user-attachments/assets/45e86263-5997-4ad1-b77f-689323992d56" />
+
 ---
 
 **Constraints setup and pre-requisites for syn_generic**
 `read_sdc /home/server2/design_kits/cadence_dft/Genus_CUI_RAK/constraints/dtmf_recvr_core_gate.sdc` loads the SDC file. SDC is the timing-constraint file: clocks, input/output delays, uncertainty, false paths, multicycle paths, generated clocks, exceptions, and similar timing rules. In short: it tells Genus what “correct timing” means for this design. `<citation src="1,2"></citation>`
+
+<img width="1862" height="356" alt="3 read_SDC_constraints_by_design_specifier" src="https://github.com/user-attachments/assets/4fbd8148-45fc-4da9-af74-9a54eee776bd" />
+
 
 `puts "The number of exceptions is [llength [vfind "design:$DESIGN" -exception *]]"` prints how many timing exceptions exist for this design. `vfind` searches the Genus database for exception objects tied to `design:$DESIGN`, and `llength` counts how many items were found. So this is just a sanity check: “how many false paths / multicycle / other exceptions got loaded?” `<citation src="4"></citation>`
 
@@ -340,6 +345,8 @@ Description
 `##For a particular instance use attribute 'optimize_merge_seqs' ...` means you can disable merging only for one instance instead of the whole design.
 Simple memory trick: **read_sdc = timing rules, vfind = count timing exceptions, file mkdir = make folders, merge-flop settings = protect registers from being combined**.
 ---
+
+<img width="1102" height="942" alt="4 check_timing_intent" src="https://github.com/user-attachments/assets/38630865-9757-4325-8cbd-3fe2e352cd70" />
 
 
 # Command 4 to do syn_generic. 
@@ -571,6 +578,9 @@ When run with no arguments, other than design, syn_opt will do a pure logical op
 
 
 `report_summary -directory $_REPORTS_PATH` writes a summary report into that reports folder. This usually gives a quick QoR snapshot for the stage. `<citation src="1"></citation>`
+
+<img width="1852" height="977" alt="8 report_qor" src="https://github.com/user-attachments/assets/6159c6fd-4fcf-4ef2-893f-c3d999e88bc9" />
+
 
 `write_hdl  > ${_OUTPUTS_PATH}/${DESIGN}_m.v` writes the synthesized netlist in HDL form, usually Verilog. The `>` redirection sends the generated text into a file. So this produces the mapped netlist file, likely the final gate-level Verilog. `<citation src="1"></citation>`
 
