@@ -710,11 +710,14 @@ Please tell me what everything does or means here, for example, what is mmmc.fil
 
 
 ### lef file insides
-![7e58872e50418da09a856bbcba8dcea3.png](:/a297078cf683476ab293589cf3f6e8c1)
+<img width="1631" height="972" alt="image" src="https://github.com/user-attachments/assets/90259e47-7131-4bf9-bb50-9075f23ae9fd" />
+
 ### mmmc file insides
-![faf9ac5531ac613bf9ab39ae934cf100.png](:/c4e1da7bf27a42dc8c721c7914558547)
+<img width="1652" height="872" alt="image" src="https://github.com/user-attachments/assets/ffcf1cfe-5157-4f5c-80b8-897549a2281b" />
+
 ### Library file insides
-![cfb3e18a606bb928ace1258e118d4292.png](:/51094278a4374ab888d6c5bf0a7b5f39)
+<img width="957" height="861" alt="image" src="https://github.com/user-attachments/assets/ee5f89b4-3567-4005-841c-a85647d4d232" />
+
 ```
 ```
 **Explanation:**
@@ -751,7 +754,9 @@ For your example, fast/slow `.lib` files mean best-case and worst-case timing be
 init_design
 ```
 ## Output warnings, errors of init_design command:
-![20f81a7f148ccef180222688ba970c4d.png](:/222987b39584461b96db6eb7fc00575f)
+
+<img width="1337" height="780" alt="image" src="https://github.com/user-attachments/assets/cfede303-3b72-4986-b8ac-95bc93f75f42" />
+
 ```
 
 man init_design
@@ -842,7 +847,8 @@ Example
 ### Command 4 for loading floorplan of design:
 I have attached leon.power.fp file that loads up an existing floor and power plan into Innovus using loadFPlan.
 Please explain the process in a brief and what floorplanning and powerplanning. What is the 'win' that is just implemented after the loadFPlan? Follow the instructions that I gave you before to deliver a similar answer format as before. 
-![e86ceaa98ccaeb3c3e62cd5c14b48d15.png](:/d6be925b1b2f40a3a1bd63c9126e64e5)
+<img width="1641" height="832" alt="image" src="https://github.com/user-attachments/assets/42bb5ec1-219a-47a2-a7de-18542b62d6d4" />
+
 ```
 loadFPlan /home/server2/design_kits/pd/innovus/innovus_designs/BlockImplementation231/RAK_23.10_blockImplementation/DATA/leon.power.fp
 win
@@ -858,7 +864,8 @@ The `win` you see after `loadFPlan` is usually just the Innovus window/view bein
 A good memory trick is: **floorplan = place the city blocks; powerplan = build the power roads; loadFPlan = reopen the saved city map.** If you want, I can next explain the exact contents of `leon.power.fp` line by line in the same short style.
 
 ## Output of Floorplan: 
-![620566040dd6484c9110765c12d6f1a3.png](:/df906bca914249eb8d49c5718b3637fb)
+<img width="1220" height="720" alt="image" src="https://github.com/user-attachments/assets/0bdba95e-e53e-4494-b74f-6f03e497d5e8" />
+
 ### Command 5 for Verification, checking and modification of settings(telling the tool how to perform operations or give outputs.):
 **Question:** 
 Please explain the process in a brief. Follow the instructions that I gave you before to deliver a similar answer format as before. 
@@ -887,7 +894,8 @@ setPlaceMode -place_global_place_io_pins true
        reports violations.
 
 ## Output of verifyConnectivity
-![16abd81bea7e570a8e9d85c0b3b1cad9.png](:/7709e9ca455849a6bf2e68ff84f375a3)
+<img width="916" height="111" alt="image" src="https://github.com/user-attachments/assets/7d76d333-3aeb-4929-97e3-d2a60edb447a" />
+
 
 **checkPlace**  - Checks FIXED and PLACED cells for violations, adds violation markers to the design display area,
        and generates a violation report
@@ -908,7 +916,8 @@ setPlaceMode -place_global_place_io_pins true
               * Row  orientation violations (Instances whose orientation is illegal for their row; may short power to
                 ground)
 ## Output of checkPlace
-![c1e8e90cec003fb0fc36a332ad5bcb17.png](:/8a4dd9f8adc04d01a45973763bacba37)
+<img width="1170" height="145" alt="image" src="https://github.com/user-attachments/assets/28f1addd-5728-4d15-932a-166f327e37eb" />
+
 
 ---
 **checkPinAssignment:**
@@ -932,7 +941,8 @@ setPlaceMode -place_global_place_io_pins true
 
 ## Output of checkPinAssignment
 ****
-![e05631dd666dee6d62dc058d0f6793bd.png](:/b402ee5a9e544522b758645739840d68)
+<img width="1271" height="292" alt="image" src="https://github.com/user-attachments/assets/52b0ac65-65f1-4bb1-8158-d0b914c2b999" />
+
 
 
 **reportCongestion -overflow**
@@ -1049,8 +1059,10 @@ In short: threading is the basic idea, multithreading is multiple threads in one
 **setAnalysisMode**
 sets global analysis modes for timing analysis:
 
-![123008236c6a30e2f88c7d374598e9bd.png](:/d646831042504825823a7bda886be8cd)
-![bed07f502137ca152e9c6cde5cbd7c46.png](:/3ad78905513742c09ec61013314061a4)
+<img width="787" height="217" alt="image" src="https://github.com/user-attachments/assets/d18db916-f088-447a-a252-c20a40d58e11" />
+
+<img width="801" height="137" alt="image" src="https://github.com/user-attachments/assets/8dd76ce0-d099-4b04-8378-fe45e06e3eb8" />
+
 
 ---
 `setDontUse *XL true
@@ -1152,7 +1164,8 @@ The design avoids placement of this drive strength cells in your design
               and the DRV numbers are not reported in  the  summary  for  this
               parameter. The -prePlace parameter sets setAnalysisMode to -clk-
               SrcPath false and -clockPropagation forcedIdeal.
-![fbe0fc7a0d61c979d3bd2284fa306b4f.png](:/ccb499701ae0485dbcac8bf825b29a4b)
+<img width="1125" height="106" alt="image" src="https://github.com/user-attachments/assets/7ff6c4d6-3ddb-4161-82a8-8ed8d7970e99" />
+
 
 
 `-clkSrcPath false` tells the timer not to trace a separate clock-source path back through the clock network when building/reporting timing. In pre-place/pre-CTS mode, that keeps clock analysis simpler and avoids using a real propagated clock path.
@@ -1178,7 +1191,8 @@ The design avoids placement of this drive strength cells in your design
 
 `sdcControl` In practice, if your SDC says a clock is propagated, it treats it as propagated; if not, it stays ideal.
 ## Output of timeDesign
-![de093eb7fab604e121bbac853b614178.png](:/8ba684a6a210460987d7463b3c7ebce5)
+<img width="771" height="442" alt="image" src="https://github.com/user-attachments/assets/a49d099a-8c8b-42c4-b854-5935fc32be42" />
+
 ---
 `setPlaceMode`
        setPlaceMode  -  Controls  certain  aspects  of how the software places
@@ -1224,7 +1238,8 @@ Early global routing is done so the placer can **predict congestion and route le
 
 A simple way to remember it is: **RC = timing realism; early global routing = congestion realism**. 
 ## Output of PlaceDesign(Does congestion analysis for us)
-![3321bcf76d037a13e38ccc3f1868bc57.png](:/519a6670b85149de9bd017d41b188b99)
+<img width="1636" height="667" alt="image" src="https://github.com/user-attachments/assets/6a919efd-c472-47df-acc9-684bd49c1090" />
+
 
 ## Command 7 , checks after place_design:
 ```
@@ -1242,14 +1257,17 @@ timeDesign -preCtS
 ```
 **Explanations and outputs**
 ### Output of reportCongestion
-![11310bfae4d4eff4a6f261ff289b6998.png](:/9fc7ca4986314fe491e70627c9f241e7)
+<img width="1142" height="177" alt="image" src="https://github.com/user-attachments/assets/268734b0-9dc3-4f01-8bd3-560e3dedf72d" />
 
-![1c3e7e871fed5bccdaf0612f6daf6b4f.png](:/a45c4a3e4f92411d870e566f9e910517)
+
+<img width="781" height="301" alt="image" src="https://github.com/user-attachments/assets/46166607-a73f-4761-a2eb-5b19d3aaffb5" />
+
 
 ---
 **legalizePin**
 		Moves a pin from its existing location.
-		![384ff662d540d7a7995c56f26b4c5105.png](:/b121bc53c6c84dd4bd329376e2e776d6)
+		<img width="1102" height="387" alt="image" src="https://github.com/user-attachments/assets/e7667592-db98-433f-b48a-85a3c963dc51" />
+
 		
 
 ## Command 8 , checks after place_opt_design and checks after that:
