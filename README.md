@@ -1533,19 +1533,26 @@ The reason post-route lithography fixes and optimize vias can conflict is simple
 ## Display window after routeDesign:
 <img width="1147" height="767" alt="image" src="https://github.com/user-attachments/assets/d35204e5-0758-4beb-ba31-7e426ea3d713" />
 
+## Output of verifyConnectivity 
+0 violations and 0 warnings.
 
 ---
 `verify_antenna`
 **Explanation:**
 
 <img width="801" height="197" alt="image" src="https://github.com/user-attachments/assets/d7ecb836-d491-400c-ab43-7b91a3c4efc3" />
-
+### Output of verify_antenna
+0 violations out of all checked nets.
 
 ---
 `verify_drc`
 **Explanation:**
 <img width="800" height="517" alt="image" src="https://github.com/user-attachments/assets/8ec2bf4e-3938-40b5-b539-a8b9c59658d4" />
 
+### Output 
+Had 2 violations:
+1. metal spacing marked by X mark in the display window. Fixed it by selecting the net and moving it away from the nearby net.
+2. Same metal layer shorting(2 different logic wires from same metal layer overlapping). Fixed it by running routeDesign again or running optDesign - postRoute which changes implementation on every run.
 ---
 
 `setExtractRCMode`
@@ -1612,6 +1619,10 @@ The reason post-route lithography fixes and optimize vias can conflict is simple
                 coupling is reported. The -effortLevel parameter further spec-
                 ifies which postRoute engine is used for balancing performance
                 versus accuracy needs.
+
+## Output of timeDesign -postRoute
+<img width="1467" height="807" alt="image" src="https://github.com/user-attachments/assets/507752cd-9f3e-4192-8436-5504b6e2861d" />
+<img width="1331" height="526" alt="image" src="https://github.com/user-attachments/assets/4a236fb9-1a9f-4cbb-96dd-cd80ab1c338c" />
 
 
 # Tape-out :Left out steps after the routing of the design
