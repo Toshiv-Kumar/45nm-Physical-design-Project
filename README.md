@@ -1937,8 +1937,10 @@ https://youtu.be/M5h-7l4Lesw for fixes
 - Short formula / dominant terms: Leakage (off-state) is sum of components; dominant ones are subthreshold (diffusion) leakage and gate/tunnel/leak through junctions. Subthreshold current ≈ Ids ≈ I0·exp[(Vgs − Vth)/(n·Vt)] (exponential in Vgs), where Vt = kT/q. Junction leakage has reverse-bias diffusion and generation terms (depends on area, perimeter, and doping).  
 - Root cause: Subthreshold is diffusion of carriers when Vgs < Vth; junction leakage is generation/recombination and band-to-band/tunnelling depending on bias and geometry.  
 - Intuition / memory trick: “Leak = sneaky diffusion + leaky gates” — think diffusion as a slow trickle across the barrier and tunneling as tiny holes in the wall. <citation src="5"></citation>
-![dc58e889fbd26b643278897cac122778.png](:/e7a696f218ee49378ba3b8b783d6e051)
-![85b732814ca0d77033fb945cfa031c61.png](:/1c12b90889bf4c3cb4f76618880b3ccb)
+<img width="639" height="284" alt="image" src="https://github.com/user-attachments/assets/1d1d9800-1cb3-4ee8-9432-bf6c3b96348e" />
+<img width="1122" height="407" alt="image" src="https://github.com/user-attachments/assets/86f5bacd-3638-4407-9bb9-93ac0aa02941" />
+
+
 I0 (I_0) is the process-and-geometry dependent prefactor (baseline current scale) in the subthreshold/exponential MOSFET current expression. It sets the magnitude of the exponential term.
 
 Briefly:
@@ -1969,7 +1971,8 @@ SRAM will hold its data permanently in the presence of power, while data in DRAM
 1) Memory = high Vdd, CPU = mid, I/O = low — why?  
 - Root cause (fundamental): SRAM and many non‑volatile memory cells need larger voltage margins to reliably distinguish '0' vs '1' (read/write noise margins, cell stability, variability, retention). Higher Vdd increases static noise margin, read/write margins, and reduces failure rate under PVT variation. CPU logic uses mid Vdd as a tradeoff between speed and energy: lower Vdd reduces dynamic and static power (P ∝ V^2 f and leakage), but also slows gates (delay ∝ 1/V) so you pick a mid voltage for timing. IO often runs at the lowest allowed Vdd (or a separate lower rail) because IO drivers are driven by interface standards and to save power — I/O transceivers can be slower or have dedicated level shifters.  
 - Intuition from the words: “Memory” → “remember reliably” → needs larger margin → higher voltage. “Processor” → “process quickly but efficiently” → compromise (mid). “I/O” → “in/out interface” → often constrained by external standards and power budget → low or separate rail.
-![c1709e00d483b6b0fb2d033190aa2cb0.png](:/bc319e0a0e0d4f1fab074b7ab9f0c7c7)
+<img width="474" height="246" alt="image" src="https://github.com/user-attachments/assets/62dabf31-68da-4e36-99ec-63eb52df2a72" />
+
 **Volatile:** It is the memory hardware that fetches/stores data at a high-speed. It is also referred as temporary memory. The data within the volatile memory is stored till the system is capable of, but once the system is turned off the data within the volatile memory is deleted automatically.
 **Non-Volatile:** It is the type of memory in which data or information is not lost within the memory even power is shut-down. ROM (Read Only Memory) is the most common example of non-volatile memory.
 2) Retention cell working (short):  https://youtu.be/Sy3n9LHb03Q?si=2p734e3OHs1FfXtv
@@ -1996,7 +1999,8 @@ See in hurry the ckt diagram only.
 ### Solutions: 
 1. Clipped and spurious clocks(see basic definition on pnr class video 19th june): if they happen due to improper clock gating then they are different from each other. Clipping indicates that the enable signal started or ended in between a real ON or OFF part of the clock and so did the gated clkout. Spurious can be explained by an example. eg. lets say we have a clock with 10ns as its period. If it remains on for 5ns and it also remains on during off time for 2ns(or different) then that means there are 2 +ve and -ve edges in a single period which is not allowed for 50%(or any other) duty cycle.
 2. **Load enabled flop:** 
-![c3e837e7bcc2190f129b4603a63ea2be.png](:/878555cec38145d6a040c461c76042fa)
+<img width="382" height="380" alt="image" src="https://github.com/user-attachments/assets/11507e65-da58-4700-947f-693c33f3063d" />
+
 Not much saving. Benefit is very small-: less switching(of voltage) at the input of the flip flop. And hence dynamic power saving.
 3. Substrate bias is another name for Body effect only which changes the threshold voltage as you very well already know.
 
@@ -2120,7 +2124,8 @@ If you paste the exact command names for item (5) and tell me which tool version
 3. If 2 hierarchy cells have many data paths which are too long, then it cause setup violations.
 4. the screenshot that I have pasted. What is the use of this report during the placement stage? Were all of these constraints decided in some previous stages(and we check them now during placement to see if they are violated or not) or are they decided at the placement stage? There are many things that I don't understand in the picture. what does grouping by min/max delay mean and what do we do by that? there are many things in there like in2reg, async_default, clock_gating_default, clk and others but I don't uderstand what exactly is this supposed to calculate? What do weights, weighted_cost and scenario mean? Also, a few of the switches like verbose, modes mode_list, scenario scenarios_list, nosplit and all violaters confuse me.
 
-![3ab6c5a0e6a923cb2c18c9819833ac58.png](:/f4482ae5156f4eef934b5f33d5bd3daa)
+<img width="1600" height="720" alt="image" src="https://github.com/user-attachments/assets/5d2aaae5-ee17-4011-86e2-31bd9d13fbf2" />
+
 ### Solutions:
 ## 1) “Always give reasoning… physical + mathematical significance…”
 **Reasoning (root cause):** ICC2 is checking *timing feasibility* between a **launch event** (launch clock edge) and a **capture event** (capture clock edge).  
@@ -2338,7 +2343,8 @@ If you want, I can now rewrite these switches in a **2-line exam answer style**.
 
 
 
-![a7f52cf7ecae948af5c7cc4ff336a033.png](:/ec44ba40677d46f2ae39fd34fdd75ade)
+<img width="871" height="96" alt="image" src="https://github.com/user-attachments/assets/00fd05d5-973b-48de-b7af-49da4aac8251" />
+
 `group_path` is used to tell the timing tool: **“treat these paths as a special group so optimization/reporting focuses on them.”**
 
 Here is what each switch means:
@@ -2545,7 +2551,8 @@ Global routing is the **rough plan**; detailed routing is the **exact legal wiri
 - Detail routing then makes the geometry exact and legal.  
 **Memory:** **G = Guess path, T = Take tracks/layers, D = Draw exact wires, S&R = Sweep leftovers.** <citation src="1,2,3,5"></citation>
 
-![0981f9658fe5bae1ca8adb6db72f1e6f.png](:/1937348fccf9476fbed791a3af76f01c)
+<img width="1900" height="766" alt="image" src="https://github.com/user-attachments/assets/70599d3b-22a2-4494-a9df-cd365f38b445" />
+
 
 # 1. PG PreRoute Setting
 
