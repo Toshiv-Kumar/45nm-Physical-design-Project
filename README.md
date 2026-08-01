@@ -1313,11 +1313,14 @@ source ccopt.spec
 ```
 **Explanations and outputs**
 **place_opt_design**
-![cc2095d251e3436549d5e8a39a3723d8.png](:/2e640c646e38430fa473ae9488c01a63)
-## output of place_opt_design after multiple iterations:
-![013572840ce5fb9b679ed60aadc9c2a8.png](:/716112334f544ddaa98283c1c827cd3a)
+<img width="1142" height="240" alt="image" src="https://github.com/user-attachments/assets/e23dd979-cd02-4a28-a55a-eaf90f09206a" />
 
-![55df4f4b80b5f3fb65c73274a5e5e9c1.png](:/1836e79369414e719037f41525c19598)
+## output of place_opt_design after multiple iterations:
+<img width="1385" height="892" alt="image" src="https://github.com/user-attachments/assets/44ff003c-0f70-4d58-acaf-438e8e199063" />
+
+
+<img width="1645" height="817" alt="image" src="https://github.com/user-attachments/assets/aace3d5c-c8e9-4e78-b24f-314507892742" />
+
 
 What are a few things included in preCTS optimization?
 What is the difference between report_timing and timeDesign?
@@ -1326,7 +1329,8 @@ What is the difference between report_timing and timeDesign?
 .Pre-CTS optimization usually includes **cell resizing**, **buffer insertion**, **repowering**, and sometimes **logic restructuring** around bad timing paths. The goal is to improve setup/hold slack before CTS, when the clock is still ideal and the tool can fix data paths more freely. Physically, this shortens or strengthens weak signal paths; mathematically, it reduces delay by lowering effective \(RC\) delay or increasing drive strength. A good memory trick is: **pre-CTS = fix data paths before the clock tree exists**. 
 
 `report_timing` is mainly a **reporting command**: it shows the timing of paths, slack, arrival/required times, and violations. `timeDesign` is more of a **timing-analysis stage command** used in the flow; it runs timing evaluation for a specific stage like preCTS, postCTS, or postRoute, and helps the tool update its timing picture before optimization. So the simple difference is: **`report_timing` tells you what is wrong; `timeDesign` helps the tool compute the timing state for that phase of the flow**. 
-![e351a38710cce86f9aa3528dd3f11777.png](:/e76e3dff372948c4a1ace8c20f9bc0e0)
+<img width="1162" height="820" alt="image" src="https://github.com/user-attachments/assets/b3ba0cf2-777c-402d-a0fe-b41f7542a572" />
+
 
 ---
 `extractRC`
@@ -1409,31 +1413,39 @@ setAnalysisMode -analysisType onChipVariation -cppr both
 ```
 **Explanations and outputs**
 `clock_opt_design`
-![6cdf6049fa9b8097b0f35d4d7c51d181.png](:/4a379b47e2b0489897405578c1262578)
-![13e2d659ce3a95c8557e3a51274c3d21.png](:/9e4f36843a5b4e4ab5355423ca2bce3e)
+<img width="802" height="237" alt="image" src="https://github.com/user-attachments/assets/65dd0ad5-1322-4b3d-8bdf-fef169ff8708" />
+
+<img width="790" height="82" alt="image" src="https://github.com/user-attachments/assets/bb69ff5e-a00a-4cc2-add2-5704f7168c90" />
+
 
 		---
 
 `optDesign -postCTS -hold -setup`
 
-![1ea6b24a201592ab40d3b509a85373d7.png](:/e24d58011b884a0695b56a6337178bd2)
+<img width="781" height="822" alt="image" src="https://github.com/user-attachments/assets/3506532f-962e-4947-9f65-8db93470bfb4" />
+
 									Moves instances
 									Deteles buffers, etc.
 
-![2531c68261899698da055fa43c3f6381.png](:/4ae29b2e0e0b4dd896745c71aaff348f)
+<img width="771" height="450" alt="image" src="https://github.com/user-attachments/assets/be3f2566-2024-4b93-b6da-8bb198d4059c" />
 
-![1c0e9c127f717350d6c52ba1f82c43d3.png](:/ae696f8b9d4647979809bd4fa106a3c6)
+
+<img width="791" height="165" alt="image" src="https://github.com/user-attachments/assets/180455b4-41a7-4644-abef-00068649da3c" />
+
 
 ---
 
 `report_ccopt_skew_groups`
-![59e9c459f357721b4c8c8b00ccdef220.png](:/cdc3f44c7e9d495e978148cd0cda4593)
+<img width="847" height="297" alt="image" src="https://github.com/user-attachments/assets/5889481f-c4f5-4b8f-94f0-76983013801f" />
+
 
 `report_ccopt_clock_tree_structure`
-![7df9a690181363918836ff7454236f3c.png](:/9205db58bae24bb8835c9015a0df77ef)
+<img width="787" height="292" alt="image" src="https://github.com/user-attachments/assets/1a1a62a0-5dae-47d1-b557-cc90cd3e6c67" />
+
 
 `report_ccopt_clock_trees`
-![9ff5198fbd9faa9a3fe6c62f2dc060d8.png](:/4456ca39375e458ca04db32c46459292)
+<img width="787" height="127" alt="image" src="https://github.com/user-attachments/assets/62cee3d5-abe9-404d-ac5a-a1f8cf8e6543" />
+
 
 ## Command 10 : 
 ```
@@ -1501,12 +1513,14 @@ The reason post-route lithography fixes and optimize vias can conflict is simple
 `verify_antenna`
 **Explanation:**
 
-![fefce0c4f8f3f4659aa0707e37071bec.png](:/e0dc6d65f6c747bc89479aacc1b7a6a5)
+<img width="801" height="197" alt="image" src="https://github.com/user-attachments/assets/d7ecb836-d491-400c-ab43-7b91a3c4efc3" />
+
 
 ---
 `verify_drc`
 **Explanation:**
-![82692d154485eb59eb2050a1e5eeee23.png](:/15c9c343a0b84ae59e80818ec5511eca)
+<img width="800" height="517" alt="image" src="https://github.com/user-attachments/assets/8ec2bf4e-3938-40b5-b539-a8b9c59658d4" />
+
 ---
 
 `setExtractRCMode`
