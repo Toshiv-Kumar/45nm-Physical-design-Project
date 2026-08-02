@@ -114,9 +114,8 @@ The flow covers RTL elaboration through generic and technology-mapped synthesis 
 
 ## 📚 References
 
-* Cadence Genus Synthesis Solution — User Guide
+* Cadence Genus Synthesis Solution — User Guide by UNM(University of New Mexico)
 * Cadence Innovus Implementation System — User Guide
-* *(Add any further references here — course material, papers, videos, etc.)*
 
 ---
 
