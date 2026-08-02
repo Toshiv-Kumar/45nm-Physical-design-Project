@@ -1,5 +1,128 @@
+# 45nm-RTL-to-Routing-PD-Flow
 
-# I will cover the TCL commands with explanations for the complete flow, and after that, basic doubts are laid out.
+**Hands-On RTL-to-Routing Physical Design Flow in 45nm CMOS (Cadence Genus + Innovus)**
+A synthesis-through-routing physical design flow executed as part of a structured VLSI PD internship — covering RTL elaboration, three-stage Genus synthesis, floorplan/power-plan setup, timing- and congestion-aware placement, non-default-rule clock tree synthesis, and detailed routing — verified at each stage with native connectivity, timing, and DRC checks.
+
+![PD](https://img.shields.io/badge/Domain-Physical%20Design-blue?style=flat-square) <img src="https://img.shields.io/badge/Technology-45nm-blue.svg" /> <img src="https://img.shields.io/badge/EDA-Cadence%20Genus%20%7C%20Innovus-orange.svg" /> <img src="https://img.shields.io/badge/Flow-Synthesis%20to%20Routing-brightgreen.svg" />
+
+---
+
+## 🧩 Overview
+
+This project documents hands-on execution of a Cadence-based digital physical design flow in 45nm CMOS, completed across two phases of a structured VLSI PD internship: **RTL synthesis** using Cadence Genus (on a DTMF receiver core, `dtmf_recvr_core`) and **place-and-route** using Cadence Innovus (on the open-source **LEON** SPARC processor core), run against a server-hosted 45nm PDK via Tcl/csh scripting.
+
+The flow covers RTL elaboration through generic and technology-mapped synthesis with equivalence-checking setup, floorplan and power-plan restoration, timing- and congestion-aware placement, non-default-rule clock tree synthesis with CCOpt, and detailed routing with native connectivity/antenna/DRC checks.
+
+**Scope note — this covers synthesis through routing only:**
+- *Not included from the synthesis phase:* pre-PnR STA and setup/hold timing closure at the synthesis stage.
+- *Not included from the PnR phase:* official PV-team-level physical verification (signoff DRC/LVS — only Innovus's own native `verify_drc`/`verify_antenna` checks were run), GDSII generation, and post-route signoff STA/timing closure.
+
+---
+
+## ✨ Features
+
+**Synthesis (Cadence Genus)**
+* RTL elaboration and hierarchy/semantic checks (`check_design`, `check_design -unresolved`)
+* Three-stage synthesis: generic (`syn_generic`) → technology-mapped (`syn_map`) → incremental optimization (`syn_opt`)
+* SDC constraint loading with timing-exception sanity checks
+* Datapath, QoR, and runtime/memory reporting captured at every stage
+* LEC (Logic Equivalence Check) setup script generation for RTL-vs-netlist proof
+
+**Place & Route (Cadence Innovus)**
+* Floorplan and power-plan restoration from a saved `.fp` file
+* Pre-placement connectivity, placement-legality, pin-assignment, and congestion checks
+* Timing- and congestion-driven global placement with on-chip-variation (CPPR) analysis
+* RC extraction and SPEF generation at the worst-case corner
+* Non-default-rule (2W2S) clock routing with CCOpt-based clock tree synthesis
+* Post-CTS and post-route setup/hold optimization
+* Detailed routing with native connectivity, antenna, and DRC checks
+
+---
+
+## 🖥️ Flow Screenshots
+
+### Synthesis (Genus)
+
+#### Elaborated RTL
+<img width="800" alt="Elaborated RTL schematic view" src="https://github.com/user-attachments/assets/faaa3444-129f-4e0f-bf08-7411fd04e27f" />
+
+#### Post `syn_opt` — Final Mapped Netlist
+<img width="800" alt="Post syn_opt schematic view" src="https://github.com/user-attachments/assets/85e225d6-0b4d-46f5-b77b-1cabd48b5ec1" />
+
+### Place & Route (Innovus)
+
+#### Restored Floorplan + Power Plan
+<img width="800" alt="Loaded floorplan and power plan" src="https://github.com/user-attachments/assets/f6a334dd-9b46-4ca3-9c50-54a8d1089b2a" />
+
+#### Post-Placement
+<img width="800" alt="Post place_design view" src="https://github.com/user-attachments/assets/b2a92e47-941a-4041-af15-edf2abc09eed" />
+
+#### Clock Tree Structure (Post-CTS)
+<img width="800" alt="Clock tree structure after clock_opt_design" src="https://github.com/user-attachments/assets/97c102b5-51e7-4e4e-8056-f6c2c351e4c7" />
+
+#### Final Routed Design
+<img width="800" alt="Design after routeDesign" src="https://github.com/user-attachments/assets/d35204e5-0758-4beb-ba31-7e426ea3d713" />
+
+---
+
+## 🛠️ EDA Tools & Technologies
+
+* **Synthesis:** Cadence Genus (17.10-p007_1)
+* **Place & Route:** Cadence Innovus
+* **Technology:** 45nm generic/foundry-style PDK (gsclib045-based)
+* **Scripting:** Tcl (flow/tool control), csh (session/environment setup)
+* **Reference Designs:** DTMF receiver core (synthesis phase) · LEON open-source SPARC processor core (PnR phase)
+* **Formats:** SDC (constraints), Liberty `.lib` (timing/power), LEF (physical abstracts), MMMC (multi-mode multi-corner setup), SPEF (extracted parasitics)
+
+---
+
+## 🧠 Design Decisions
+
+1. **Selective non-default routing rule for the clock network only:** Applied a 2W2S (2x width, 2x spacing) non-default rule specifically to clock trunk/leaf nets via `add_ndr` + `create_route_type`, rather than design-wide — wider spacing cuts crosstalk-induced jitter and wider metal reduces electromigration risk, exactly where clock-network integrity matters most, without paying that routing-resource cost on every signal net.
+
+2. **Restricting the clock-tree cell palette:** Constrained CCOpt to a specific, small set of buffer/inverter cells (`CLKBUFX8/X12`, `CLKINVX8/X12`) rather than letting it pick freely from the full library, favoring inverters where possible — a buffer is two cascaded inverting stages and can accumulate rise/fall asymmetry across a tree with many stages.
+
+3. **Excluding weakest-drive cells from optimization (`setDontUse *XL *X1`):** Removed the lowest drive-strength cells from what the optimizer is allowed to place, trading away some area/power-optimal options in exchange for avoiding cells too weak to reliably drive real nets without slew/transition problems.
+
+4. **Checking timing at every flow checkpoint, not just at the end:** Ran `timeDesign` at prePlace, preCTS, postCTS, and postRoute rather than only after routing, so a timing regression could be traced to the specific stage that introduced it — the hold violation that only appeared post-CTS was caught immediately instead of surfacing as an unexplained failure much later.
+
+5. **On-chip variation analysis with CPPR enabled:** Used `setAnalysisMode -analysisType onChipVariation -cppr both` instead of flat worst-case-both-ends timing, since ignoring common-path pessimism removal overstates margin loss on shared clock paths between launch and capture.
+
+---
+
+## 🧗 Challenges Faced
+
+1. **Post-route DRC violations needing different fixes for different root causes:** `verify_drc` surfaced two distinct violations after routing — a metal-spacing violation and a same-layer short between two unrelated nets. The two needed different fixes: the spacing issue was resolved by selecting and manually shifting the offending net, while the short required re-running `routeDesign`/`optDesign -postRoute` rather than a manual edit, since a short usually means the router needs a genuinely different path, not a small nudge.
+
+2. **A hold violation that only appeared after CTS:** Pre-CTS timing looked clean, but `timeDesign -postCTS` reported a positive setup slack alongside a negative hold slack that didn't even show up under the default report view — hold results needed the `-hold` switch explicitly. This is the practical reason hold gets checked post-CTS rather than earlier: the real clock-tree delay and skew that hold depends on doesn't exist until the tree is actually built.
+
+3. **Placement-legality violations that weren't visible from timing or congestion reports alone:** `checkPlace` turned up overlap and legality issues that neither the congestion report nor the first placement pass had flagged, needing a second pass — either through `opt_design` or by manually shifting standard cells into open space. It was a reminder that a design can look fine on wirelength/congestion metrics and still be sitting on illegal geometry underneath.
+
+4. **Reconciling terminology across two EDA vendors:** The hands-on flow ran entirely on Cadence (Genus + Innovus), but some of the deeper timing-methodology reference material used Synopsys ICC2 vocabulary — `group_path`, `scenario`, `weighted_cost` — that doesn't map one-to-one onto Cadence's conventions. Working through both side by side was necessary to understand the underlying timing methodology rather than just one tool's command syntax.
+
+---
+
+## ⚖️ Trade-offs and Outcomes
+
+1. **Congestion-aware + timing-driven placement together, not sequentially:** Running both objectives in the same placement pass costs more placement runtime/complexity than optimizing wirelength alone, but avoids a placement that looks fine on paper and then forces routing detours later. *Outcome:* congestion stayed low enough after placement that no rework was needed before moving into CTS.
+
+2. **`syn_map`/`syn_opt` effort set to high, `syn_generic` left at medium:** Spent the higher optimization effort specifically at the technology-mapping and incremental-optimization stages, where it directly affects final gate-level timing/area/power, while keeping generic synthesis at a lighter effort since that stage is more about establishing a clean structural netlist. *Outcome:* kept total synthesis runtime reasonable without giving up quality where it actually mattered.
+
+3. **Fixing native-check violations immediately rather than deferring them:** Resolved the `verify_drc` and placement-legality issues as soon as the native (non-signoff) checks flagged them, instead of only finding out later from a formal PV pass. *Outcome:* `verifyConnectivity` and `verify_antenna` both came back clean by the time routing was complete, and the two DRC issues were closed without needing to backtrack to an earlier flow stage.
+
+---
+
+## 📚 References
+
+* Cadence Genus Synthesis Solution — User Guide
+* Cadence Innovus Implementation System — User Guide
+* *(Add any further references here — course material, papers, videos, etc.)*
+
+---
+
+# 📖 Theory
+
+# I will cover the TCL commands with explanations for the complete flow, and after that, basic doubts will be laid out.
 
 # Tcl commands with explanations for the complete flow are laid out.:
 
