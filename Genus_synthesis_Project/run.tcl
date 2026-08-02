@@ -1,3 +1,4 @@
+
 #### Template Script for RTL->Gate-Level Flow (generated from GENUS 17.10-p007_1) 
 
 if {[file exists /proc/cpuinfo]} {
