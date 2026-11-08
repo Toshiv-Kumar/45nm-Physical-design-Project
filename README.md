@@ -109,6 +109,39 @@ The flow covers RTL elaboration through generic and technology-mapped synthesis 
 2. **`syn_map`/`syn_opt` effort set to high, `syn_generic` left at medium:** Spent the higher optimization effort specifically at the technology-mapping and incremental-optimization stages, where it directly affects final gate-level timing/area/power, while keeping generic synthesis at a lighter effort since that stage is more about establishing a clean structural netlist. *Outcome:* kept total synthesis runtime reasonable without giving up quality where it actually mattered.
 
 3. **Fixing native-check violations immediately rather than deferring them:** Resolved the `verify_drc` and placement-legality issues as soon as the native (non-signoff) checks flagged them, instead of only finding out later from a formal PV pass. *Outcome:* `verifyConnectivity` and `verify_antenna` both came back clean by the time routing was complete, and the two DRC issues were closed without needing to backtrack to an earlier flow stage.
+---
+## 45nm-Physical-design-Project — Project Explanation
+
+Why I selected this approach: RTL is only functionally correct the moment it simulates cleanly — it isn’t yet a chip. Following the flow in real order (synthesis, then floorplan, placement, CTS, routing) and checking timing/legality at every checkpoint was the only way to trace a problem back to where it actually originated.
+
+Architecture/flow used: 3-stage Cadence Genus synthesis (generic → mapped → optimized), then Cadence Innovus physical design — floorplan/power-plan restoration, timing- and congestion-aware placement, a non-default routing rule on the clock network specifically (double width/spacing for EM and crosstalk margin), CTS, and detailed routing.
+
+What I implemented: RTL elaboration and synthesis generating LEC-ready netlists and QoR reports at each stage; the full floorplan-to-routing flow with native connectivity/antenna/DRC checks run after routing rather than assumed clean.
+
+How I tested it: Timing checked at every checkpoint — pre-placement, pre-CTS, post-CTS, post-route — so a regression could be traced to the exact stage that introduced it.
+
+Challenges faced: A hold violation that only appeared post-CTS, since hold depends on real clock-tree delay/skew that doesn’t exist until the tree is built; two post-route DRC violations needing different fixes (a spacing issue vs. a same-layer short needing a genuinely different route).
+
+Results obtained: Zero connectivity/antenna violations; both post-route DRC issues identified and resolved.
+
+What I would improve: This covered synthesis through routing only — a dedicated post-route STA and signoff-level PV pass were out of scope, and would be the natural next step.
+
+---
+## 45nm-Physical-design-Project
+
+Q: Tell me about your project.
+
+Problem: RTL is functionally correct the moment it simulates cleanly, but it isn’t yet a chip — it has to become a gate-level netlist meeting real timing, then be physically placed, clocked, and wired on a die. The goal was to work through that synthesis-to-routing flow hands-on in Cadence Genus and Innovus on a real 45nm process.
+
+Approach: I followed the order a real flow would use: three-stage logic synthesis first (generic, then technology-mapped, then incrementally optimized), followed by floorplanning, placement, clock tree synthesis, and routing — checking timing and physical legality at every checkpoint rather than only at the end.
+
+Implementation: On synthesis, I elaborated and synthesized a DTMF receiver core through Genus’s generic, mapped, and optimization passes, generating LEC-ready netlists and datapath/QoR reports at each stage. On the physical side, I took the open-source LEON processor core through floorplan/power-plan restoration, timing- and congestion-aware global placement, a non-default routing rule specifically on the clock network (double width and spacing, to cut electromigration and crosstalk risk where it matters most), CTS, and detailed routing.
+
+Testing: I ran native connectivity, antenna, and DRC checks after routing rather than assuming a clean result, and checked timing at every flow checkpoint — pre-placement, pre-CTS, post-CTS, post-route — rather than only once at the end.
+
+Result: A complete, native-check-clean flow: zero connectivity and antenna violations, two post-route DRC issues identified and resolved.
+
+Challenges: The most instructive one was a hold violation that only appeared post-CTS — hold depends on real clock-tree delay and skew that doesn’t exist until the tree is built, so no amount of pre-CTS checking would have caught it. The two DRC violations also needed different fixes for different causes: a spacing issue was resolved by nudging the net, while a same-layer short needed the router to find a genuinely different path. The natural next step, outside this project’s scope, would be a dedicated post-route STA and signoff-level physical verification pass.
 
 ---
 
